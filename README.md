@@ -3,11 +3,14 @@
 ``` bash
 ./ipcalc -h
 
-./ipcalc -- Calculate CIDR IP Address
+Calculate CIDR IP Address
 
--h | --help     Print this help message
--d | --debug    Dispaly debug output
--v | --verbose  List IP address of each host
+./ipcalc <A.B.C.D/XY>
+
+[-h || --help]     Print this help message
+[-d || --debug]    Dispaly debug output
+[-v || --verbose]  List IP address of each host
+<A.B.C.D/XY>       CIDR IP address
 ```
 ## Examples:
 ``` bash

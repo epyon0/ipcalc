@@ -37,10 +37,11 @@ int main(const int argc, const char *argv[]) {
         for (int i = 1; i < argc; i++) {
             const char *arg = argv[i];
             if ((strncmp(arg, "-h", sizeof("-h")) == 0) || (strncmp(arg, "--help", sizeof("--help")) == 0)) {
-                printf("\n%s -- Calculate CIDR IP Address\n\n", argv[0]);
-                printf("-h | --help     Print this help message\n");
-                printf("-d | --debug    Dispaly debug output\n");
-                printf("-v | --verbose  List IP address of each host\n");
+                printf("\nCalculate CIDR IP Address\n\n%s <A.B.C.D/XY>\n\n", argv[0]);
+                printf("[-h || --help]     Print this help message\n");
+                printf("[-d || --debug]    Dispaly debug output\n");
+                printf("[-v || --verbose]  List IP address of each host\n");
+                printf("<A.B.C.D/XY>       CIDR IP address\n");
 
                 return 0;
             }
