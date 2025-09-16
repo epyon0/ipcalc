@@ -1,6 +1,6 @@
 # ipcalc
 ## Help:
-- ``` bash
+``` bash
 ./ipcalc -h
 
 ./ipcalc -- Calculate CIDR IP Address
@@ -10,7 +10,7 @@
 -v | --verbose  List IP address of each host
 ```
 ## Examples:
-- ``` bash
+``` bash
 ./ipcalc 98.76.54.32/10
 Address:   98.76.54.32
 Netmask:   255.192.0.0
@@ -22,7 +22,7 @@ Host Max:  98.127.255.254
 Hosts/Net: 4194302
 Class:     A
 ```
-- ``` bash
+``` bash
 ./ipcalc 192.168.1.250/29 -v
 Address:   192.168.1.250       11000000.10101000.00000001.11111010
 Netmask:   255.255.255.248     11111111.11111111.11111111.11111000
@@ -41,7 +41,7 @@ Hosts:
   192.168.1.253
   192.168.1.254
 ```
-- ``` bash
+``` bash
 ./ipcalc 10.1.2.3/12 -d
 12:29:43 | ./ipcalc.c:71 | parseIP | DEBUG: Parsing IP string: 10.1.2.3/12
 12:29:43 | ./ipcalc.c:101 | parseIP | DEBUG: Octet 1 end position: 2
