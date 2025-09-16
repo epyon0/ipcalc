@@ -101,10 +101,13 @@ void parseIP(const char *ipString) {
 
     snprintf(dBuff, sizeof(dBuff), "Octet 1 end position: %d", pos1);
     verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+
     snprintf(dBuff, sizeof(dBuff), "Octet 2 end position: %d", pos2);
     verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+
     snprintf(dBuff, sizeof(dBuff), "Octet 3 end position: %d", pos3);
     verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    
     snprintf(dBuff, sizeof(dBuff), "Octet 4 end position: %d", pos4);
     verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
     
@@ -223,54 +226,61 @@ void parseIP(const char *ipString) {
         char tmpBuf[31] = {'\0'};
 
         snprintf(tmpBuf, sizeof(tmpBuf), "Address:   %d.%d.%d.%d", (unsigned char)(tmpIP>>24), (unsigned char)(tmpIP>>16), (unsigned char)(tmpIP>>8), (unsigned char)(tmpIP));
-        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)(tmpIP>>24)), BYTE_TO_BINARY((unsigned char)(tmpIP>>16)), BYTE_TO_BINARY((unsigned char)(tmpIP>>8)), BYTE_TO_BINARY((unsigned char)(tmpIP)));
+        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)(tmpIP>>24)), 
+        BYTE_TO_BINARY((unsigned char)(tmpIP>>16)), BYTE_TO_BINARY((unsigned char)(tmpIP>>8)), BYTE_TO_BINARY((unsigned char)(tmpIP)));
 
         for (size_t i = 0; i < strlen(tmpBuf); i++) {
             tmpBuf[i] = '\0';
         }
         snprintf(tmpBuf, sizeof(tmpBuf), "Netmask:   %d.%d.%d.%d", (unsigned char)(snm>>24), (unsigned char)(snm>>16), (unsigned char)(snm>>8), (unsigned char)(snm));
-        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n",tmpBuf, BYTE_TO_BINARY((unsigned char)(snm>>24)), BYTE_TO_BINARY((unsigned char)(snm>>16)), BYTE_TO_BINARY((unsigned char)(snm>>8)), BYTE_TO_BINARY((unsigned char)(snm)));
+        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n",tmpBuf, BYTE_TO_BINARY((unsigned char)(snm>>24)), 
+        BYTE_TO_BINARY((unsigned char)(snm>>16)), BYTE_TO_BINARY((unsigned char)(snm>>8)), BYTE_TO_BINARY((unsigned char)(snm)));
 
         for (size_t i = 0; i < strlen(tmpBuf); i++) {
             tmpBuf[i] = '\0';
         }
         snprintf(tmpBuf, sizeof(tmpBuf), "Wildcard:  %d.%d.%d.%d", (unsigned char)((~snm)>>24), (unsigned char)((~snm)>>16), (unsigned char)((~snm)>>8), (unsigned char)((~snm)));
-        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)((~snm)>>24)), BYTE_TO_BINARY((unsigned char)((~snm)>>16)), BYTE_TO_BINARY((unsigned char)((~snm)>>8)), BYTE_TO_BINARY((unsigned char)((~snm))));
+        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)((~snm)>>24)), 
+        BYTE_TO_BINARY((unsigned char)((~snm)>>16)), BYTE_TO_BINARY((unsigned char)((~snm)>>8)), BYTE_TO_BINARY((unsigned char)((~snm))));
 
         for (size_t i = 0; i < strlen(tmpBuf); i++) {
             tmpBuf[i] = '\0';
         }
         snprintf(tmpBuf, sizeof(tmpBuf), "Network:   %d.%d.%d.%d/%d", (unsigned char)(startIP>>24), (unsigned char)(startIP>>16), (unsigned char)(startIP>>8), (unsigned char)(startIP), netbit);
-        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)(startIP>>24)), BYTE_TO_BINARY((unsigned char)(startIP>>16)), BYTE_TO_BINARY((unsigned char)(startIP>>8)), BYTE_TO_BINARY((unsigned char)(startIP)));
+        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)(startIP>>24)), 
+        BYTE_TO_BINARY((unsigned char)(startIP>>16)), BYTE_TO_BINARY((unsigned char)(startIP>>8)), BYTE_TO_BINARY((unsigned char)(startIP)));
 
         for (size_t i = 0; i < strlen(tmpBuf); i++) {
             tmpBuf[i] = '\0';
         }
         snprintf(tmpBuf, sizeof(tmpBuf), "Broadcast: %d.%d.%d.%d", (unsigned char)(stopIP>>24), (unsigned char)(stopIP>>16), (unsigned char)(stopIP>>8), (unsigned char)(stopIP));
-        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)(stopIP>>24)), BYTE_TO_BINARY((unsigned char)(stopIP>>16)), BYTE_TO_BINARY((unsigned char)(stopIP>>8)), BYTE_TO_BINARY((unsigned char)(stopIP)));
+        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)(stopIP>>24)), 
+        BYTE_TO_BINARY((unsigned char)(stopIP>>16)), BYTE_TO_BINARY((unsigned char)(stopIP>>8)), BYTE_TO_BINARY((unsigned char)(stopIP)));
 
         for (size_t i = 0; i < strlen(tmpBuf); i++) {
             tmpBuf[i] = '\0';
         }
         snprintf(tmpBuf, sizeof(tmpBuf), "Host Min:  %d.%d.%d.%d", (unsigned char)((startIP + 1)>>24), (unsigned char)((startIP + 1)>>16), (unsigned char)((startIP + 1)>>8), (unsigned char)((startIP + 1)));
-        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)((startIP + 1)>>24)), BYTE_TO_BINARY((unsigned char)((startIP + 1)>>16)), BYTE_TO_BINARY((unsigned char)((startIP + 1)>>8)), BYTE_TO_BINARY((unsigned char)((startIP + 1))));
+        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)((startIP + 1)>>24)), 
+        BYTE_TO_BINARY((unsigned char)((startIP + 1)>>16)), BYTE_TO_BINARY((unsigned char)((startIP + 1)>>8)), BYTE_TO_BINARY((unsigned char)((startIP + 1))));
 
         for (size_t i = 0; i < strlen(tmpBuf); i++) {
             tmpBuf[i] = '\0';
         }
         snprintf(tmpBuf, sizeof(tmpBuf), "Host Max:  %d.%d.%d.%d", (unsigned char)((stopIP - 1)>>24), (unsigned char)((stopIP - 1)>>16), (unsigned char)((stopIP - 1)>>8), (unsigned char)((stopIP - 1)));
-        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)((stopIP - 1)>>24)), BYTE_TO_BINARY((unsigned char)((stopIP - 1)>>16)), BYTE_TO_BINARY((unsigned char)((stopIP - 1)>>8)), BYTE_TO_BINARY((unsigned char)((stopIP - 1))));
+        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)((stopIP - 1)>>24)), 
+        BYTE_TO_BINARY((unsigned char)((stopIP - 1)>>16)), BYTE_TO_BINARY((unsigned char)((stopIP - 1)>>8)), BYTE_TO_BINARY((unsigned char)((stopIP - 1))));
 
         printf("Hosts/Net: %d\n", stopIP - startIP - 1);
         printf("Class:     %c\n", class);
     } else {
-        printf("Address:   %d.%d.%d.%d\n", (unsigned char)(tmpIP>>24), (unsigned char)(tmpIP>>16), (unsigned char)(tmpIP>>8), (unsigned char)(tmpIP));
-        printf("Netmask:   %d.%d.%d.%d\n", (unsigned char)(snm>>24), (unsigned char)(snm>>16), (unsigned char)(snm>>8), (unsigned char)(snm));
-        printf("Wildcard:  %d.%d.%d.%d\n", (unsigned char)((~snm)>>24), (unsigned char)((~snm)>>16), (unsigned char)((~snm)>>8), (unsigned char)((~snm)));
-        printf("Network:   %d.%d.%d.%d/%d\n", (unsigned char)(startIP>>24), (unsigned char)(startIP>>16), (unsigned char)(startIP>>8), (unsigned char)(startIP), netbit);
-        printf("Broadcast: %d.%d.%d.%d\n", (unsigned char)(stopIP>>24), (unsigned char)(stopIP>>16), (unsigned char)(stopIP>>8), (unsigned char)(stopIP));
-        printf("Host Min:  %d.%d.%d.%d\n", (unsigned char)((startIP + 1)>>24), (unsigned char)((startIP + 1)>>16), (unsigned char)((startIP + 1)>>8), (unsigned char)((startIP + 1)));
-        printf("Host Max:  %d.%d.%d.%d\n", (unsigned char)((stopIP - 1)>>24), (unsigned char)((stopIP - 1)>>16), (unsigned char)((stopIP - 1)>>8), (unsigned char)((stopIP - 1)));
+        printf("Address:   %d.%d.%d.%d\n",    (unsigned char)(tmpIP>>24),         (unsigned char)(tmpIP>>16),         (unsigned char)(tmpIP>>8),         (unsigned char)(tmpIP));
+        printf("Netmask:   %d.%d.%d.%d\n",    (unsigned char)(snm>>24),           (unsigned char)(snm>>16),           (unsigned char)(snm>>8),           (unsigned char)(snm));
+        printf("Wildcard:  %d.%d.%d.%d\n",    (unsigned char)((~snm)>>24),        (unsigned char)((~snm)>>16),        (unsigned char)((~snm)>>8),        (unsigned char)((~snm)));
+        printf("Network:   %d.%d.%d.%d/%d\n", (unsigned char)(startIP>>24),       (unsigned char)(startIP>>16),       (unsigned char)(startIP>>8),       (unsigned char)(startIP), netbit);
+        printf("Broadcast: %d.%d.%d.%d\n",    (unsigned char)(stopIP>>24),        (unsigned char)(stopIP>>16),        (unsigned char)(stopIP>>8),        (unsigned char)(stopIP));
+        printf("Host Min:  %d.%d.%d.%d\n",    (unsigned char)((startIP + 1)>>24), (unsigned char)((startIP + 1)>>16), (unsigned char)((startIP + 1)>>8), (unsigned char)((startIP + 1)));
+        printf("Host Max:  %d.%d.%d.%d\n",    (unsigned char)((stopIP - 1)>>24),  (unsigned char)((stopIP - 1)>>16),  (unsigned char)((stopIP - 1)>>8),  (unsigned char)((stopIP - 1)));
         printf("Hosts/Net: %d\n", stopIP - startIP - 1);
         printf("Class:     %c\n", class);
     }
