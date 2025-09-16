@@ -57,30 +57,16 @@ int main(const int argc, const char *argv[]) {
                     }
                     if ((j == strlen(arg) - 1) && (periodCnt == 3) && (slashCnt == 1)) {
                        parseIP(arg);
-                        /*
-                        uint64_t tmpIP = parseIP(arg);
-                        start = (uint32_t)(tmpIP >> 32);
-                        stop = (uint32_t)tmpIP;
-
-                        snprintf(dBuff, sizeof(dBuff), "Starting address: %d.%d.%d.%d", (unsigned char)(start>>24), (unsigned char)(start>>16), (unsigned char)(start>>8), (unsigned char)(start));
-                        verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
-                        snprintf(dBuff, sizeof(dBuff), "Ending address: %d.%d.%d.%d", (unsigned char)(stop>>24), (unsigned char)(stop>>16), (unsigned char)(stop>>8), (unsigned char)(stop));
-                        verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
-                        */
                     }
                 } else {
                     break;
                 }
             }
-            /*
-            snprintf(dBuff, sizeof(dBuff), "Arg[%d] %s", i, arg);
-            verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
-            */
         }
     }
 }
 
-void parseIP(const char *ipString) { // returns uint64, first 4 bytes are the lowest ip address, the last 4 bytes are the highest
+void parseIP(const char *ipString) {
     snprintf(dBuff, sizeof(dBuff), "Parsing IP string: %s", ipString);
     verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
     
@@ -286,8 +272,6 @@ void parseIP(const char *ipString) { // returns uint64, first 4 bytes are the lo
         printf("Hosts/Net: %d\n", stopIP - startIP - 1);
         printf("Class:     %c\n", class);
     }
-
-
 
     if (vverbose) {
         printf("Hosts:\n");
