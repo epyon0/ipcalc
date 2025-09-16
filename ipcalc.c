@@ -57,6 +57,7 @@ int main(const int argc, const char *argv[]) {
                         slashCnt++;
                     }
                     if ((j == strlen(arg) - 1) && (periodCnt == 3) && (slashCnt == 1)) {
+                        printf("\n");
                        parseIP(arg);
                     }
                 } else {
