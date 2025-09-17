@@ -14,125 +14,128 @@ Calculate CIDR IP Address
 ```
 ## Examples:
 ``` bash
-./ipcalc 98.76.54.32/10
-Address:   98.76.54.32
+./ipcalc 245.58.99.13/10
+
+Address:   245.58.99.13
 Netmask:   255.192.0.0
 Wildcard:  0.63.255.255
-Network:   98.64.0.0/10
-Broadcast: 98.127.255.255
-Host Min:  98.64.0.1
-Host Max:  98.127.255.254
+Network:   245.0.0.0/10
+Broadcast: 245.63.255.255
+Host Min:  245.0.0.1
+Host Max:  245.63.255.254
 Hosts/Net: 4194302
-Class:     A
+Class:     E
 ```
 ``` bash
-./ipcalc 192.168.1.250/29 -v
-Address:   192.168.1.250       11000000.10101000.00000001.11111010
+./ipcalc 230.55.255.72/29 -v
+
+Address:   230.55.255.72       11100110.00110111.11111111.01001000
 Netmask:   255.255.255.248     11111111.11111111.11111111.11111000
 Wildcard:  0.0.0.7             00000000.00000000.00000000.00000111
-Network:   192.168.1.248/29    11000000.10101000.00000001.11111000
-Broadcast: 192.168.1.255       11000000.10101000.00000001.11111111
-Host Min:  192.168.1.249       11000000.10101000.00000001.11111001
-Host Max:  192.168.1.254       11000000.10101000.00000001.11111110
+Network:   230.55.255.72/29    11100110.00110111.11111111.01001000
+Broadcast: 230.55.255.79       11100110.00110111.11111111.01001111
+Host Min:  230.55.255.73       11100110.00110111.11111111.01001001
+Host Max:  230.55.255.78       11100110.00110111.11111111.01001110
 Hosts/Net: 6
-Class:
+Class:     D
 Hosts:
-  192.168.1.249
-  192.168.1.250
-  192.168.1.251
-  192.168.1.252
-  192.168.1.253
-  192.168.1.254
+  230.55.255.73
+  230.55.255.74
+  230.55.255.75
+  230.55.255.76
+  230.55.255.77
+  230.55.255.78
 ```
 ``` bash
-./ipcalc 10.1.2.3/12 -d
-12:29:43 | ./ipcalc.c:71 | parseIP | DEBUG: Parsing IP string: 10.1.2.3/12
-12:29:43 | ./ipcalc.c:101 | parseIP | DEBUG: Octet 1 end position: 2
-12:29:43 | ./ipcalc.c:103 | parseIP | DEBUG: Octet 2 end position: 4
-12:29:43 | ./ipcalc.c:105 | parseIP | DEBUG: Octet 3 end position: 6
-12:29:43 | ./ipcalc.c:107 | parseIP | DEBUG: Octet 4 end position: 8
-12:29:43 | ./ipcalc.c:113 | parseIP | DEBUG: Octet 1: 10
-12:29:43 | ./ipcalc.c:121 | parseIP | DEBUG: Octet 2: 1
-12:29:43 | ./ipcalc.c:129 | parseIP | DEBUG: Octet 3: 2
-12:29:43 | ./ipcalc.c:137 | parseIP | DEBUG: Octet 4: 3
-12:29:43 | ./ipcalc.c:145 | parseIP | DEBUG: Network Bit: 12
-12:29:43 | ./ipcalc.c:179 | parseIP | DEBUG: Given IP: 10.1.2.3
-12:29:43 | ./ipcalc.c:190 | parseIP | DEBUG: Subnet mask: 255.240.0.0
-12:29:43 | ./ipcalc.c:195 | parseIP | DEBUG: Network ID: 10.0.0.0
-12:29:43 | ./ipcalc.c:200 | parseIP | DEBUG: Broadcast: 10.15.255.255
-Address:   10.1.2.3
+./ipcalc 192.168.55.99/12 -d
+
+09:39:01 | ./ipcalc.c:73 | parseIP | DEBUG: Parsing IP string: 192.168.55.99/12
+09:39:01 | ./ipcalc.c:103 | parseIP | DEBUG: Octet 1 end position: 3
+09:39:01 | ./ipcalc.c:106 | parseIP | DEBUG: Octet 2 end position: 7
+09:39:01 | ./ipcalc.c:109 | parseIP | DEBUG: Octet 3 end position: 10
+09:39:01 | ./ipcalc.c:112 | parseIP | DEBUG: Octet 4 end position: 13
+09:39:01 | ./ipcalc.c:118 | parseIP | DEBUG: Octet 1: 192
+09:39:01 | ./ipcalc.c:126 | parseIP | DEBUG: Octet 2: 168
+09:39:01 | ./ipcalc.c:134 | parseIP | DEBUG: Octet 3: 55
+09:39:01 | ./ipcalc.c:142 | parseIP | DEBUG: Octet 4: 99
+09:39:01 | ./ipcalc.c:150 | parseIP | DEBUG: Network Bit: 12
+09:39:01 | ./ipcalc.c:184 | parseIP | DEBUG: Given IP: 192.168.55.99
+09:39:01 | ./ipcalc.c:195 | parseIP | DEBUG: Subnet mask: 255.240.0.0
+09:39:01 | ./ipcalc.c:200 | parseIP | DEBUG: Network ID: 192.160.0.0
+09:39:01 | ./ipcalc.c:205 | parseIP | DEBUG: Broadcast: 192.175.255.255
+Address:   192.168.55.99
 Netmask:   255.240.0.0
 Wildcard:  0.15.255.255
-Network:   10.0.0.0/12
-Broadcast: 10.15.255.255
-Host Min:  10.0.0.1
-Host Max:  10.15.255.254
+Network:   192.160.0.0/12
+Broadcast: 192.175.255.255
+Host Min:  192.160.0.1
+Host Max:  192.175.255.254
 Hosts/Net: 1048574
-Class:     A
+Class:     C
 ```
 ``` bash
-./ipcalc 10.3.4.5/30 192.168.5.4/29 -v
+./ipcalc 128.55.66.77/30 127.0.0.1/29 -v
 
-Address:   10.3.4.5            00001010.00000011.00000100.00000101
+Address:   128.55.66.77        10000000.00110111.01000010.01001101
 Netmask:   255.255.255.252     11111111.11111111.11111111.11111100
 Wildcard:  0.0.0.3             00000000.00000000.00000000.00000011
-Network:   10.3.4.4/30         00001010.00000011.00000100.00000100
-Broadcast: 10.3.4.7            00001010.00000011.00000100.00000111
-Host Min:  10.3.4.5            00001010.00000011.00000100.00000101
-Host Max:  10.3.4.6            00001010.00000011.00000100.00000110
+Network:   128.55.66.76/30     10000000.00110111.01000010.01001100
+Broadcast: 128.55.66.79        10000000.00110111.01000010.01001111
+Host Min:  128.55.66.77        10000000.00110111.01000010.01001101
+Host Max:  128.55.66.78        10000000.00110111.01000010.01001110
 Hosts/Net: 2
-Class:     A
+Class:     B
 Hosts:
-  10.3.4.5
-  10.3.4.6
+  128.55.66.77
+  128.55.66.78
 
-Address:   192.168.5.4         11000000.10101000.00000101.00000100
+Address:   127.0.0.1           01111111.00000000.00000000.00000001
 Netmask:   255.255.255.248     11111111.11111111.11111111.11111000
 Wildcard:  0.0.0.7             00000000.00000000.00000000.00000111
-Network:   192.168.5.0/29      11000000.10101000.00000101.00000000
-Broadcast: 192.168.5.7         11000000.10101000.00000101.00000111
-Host Min:  192.168.5.1         11000000.10101000.00000101.00000001
-Host Max:  192.168.5.6         11000000.10101000.00000101.00000110
+Network:   127.0.0.0/29        01111111.00000000.00000000.00000000
+Broadcast: 127.0.0.7           01111111.00000000.00000000.00000111
+Host Min:  127.0.0.1           01111111.00000000.00000000.00000001
+Host Max:  127.0.0.6           01111111.00000000.00000000.00000110
 Hosts/Net: 6
-Class:
+Class:     A
 Hosts:
-  192.168.5.1
-  192.168.5.2
-  192.168.5.3
-  192.168.5.4
-  192.168.5.5
-  192.168.5.6
+  127.0.0.1
+  127.0.0.2
+  127.0.0.3
+  127.0.0.4
+  127.0.0.5
+  127.0.0.6
 ```
 ``` bash
-./ipcalc 1.2.3.4/5 6.7.8.9/10 12.34.56.78/32
+./ipcalc 127.2.3.4/5 190.5.4.9/10 222.255.255.255/30
 
-Address:   1.2.3.4
+Address:   127.2.3.4
 Netmask:   248.0.0.0
 Wildcard:  7.255.255.255
-Network:   0.0.0.0/5
-Broadcast: 7.255.255.255
-Host Min:  0.0.0.1
-Host Max:  7.255.255.254
+Network:   120.0.0.0/5
+Broadcast: 127.255.255.255
+Host Min:  120.0.0.1
+Host Max:  127.255.255.254
 Hosts/Net: 134217726
 Class:     A
 
-Address:   6.7.8.9
+Address:   190.5.4.9
 Netmask:   255.192.0.0
 Wildcard:  0.63.255.255
-Network:   6.0.0.0/10
-Broadcast: 6.63.255.255
-Host Min:  6.0.0.1
-Host Max:  6.63.255.254
+Network:   190.0.0.0/10
+Broadcast: 190.63.255.255
+Host Min:  190.0.0.1
+Host Max:  190.63.255.254
 Hosts/Net: 4194302
-Class:     A
+Class:     B
 
-Address:   12.34.56.78
-Netmask:   255.255.255.255
-Wildcard:  0.0.0.0
-Network:   12.34.56.78/32
-Broadcast: 12.34.56.78
-Host Min:  12.34.56.79
-Host Max:  12.34.56.77
-Hosts/Net: -1
-Class:     A
+Address:   222.255.255.255
+Netmask:   255.255.255.252
+Wildcard:  0.0.0.3
+Network:   222.255.255.252/30
+Broadcast: 222.255.255.255
+Host Min:  222.255.255.253
+Host Max:  222.255.255.254
+Hosts/Net: 2
+Class:     C
 ```

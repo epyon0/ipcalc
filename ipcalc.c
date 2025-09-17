@@ -206,23 +206,18 @@ void parseIP(const char *ipString) {
 
     char class = '\0';
 
-    //if ((startIP >> 31) == 0x0) {
     if (((unsigned char)octet1 | 0b01111111) == 0b01111111) {
         class = 'A';
     }
-    //if ((startIP >> 30) == 0x10) {
     if (((unsigned char)octet1 | 0b00111111) == 0b10111111) {
         class = 'B';
     }
-    //if ((startIP >> 29) == 0x110) {
     if (((unsigned char)octet1 | 0b00011111) == 0b11011111) {
         class = 'C';
     }
-    //if ((startIP >> 28) == 0x1110) {
     if (((unsigned char)octet1 | 0b00001111) == 0b11101111) {
         class = 'D';
     }
-    //if ((startIP >> 28) == 0x1111) {
     if (((unsigned char)octet1 | 0b00001111) == 0b11111111) {
         class = 'E';
     }
