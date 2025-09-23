@@ -68,17 +68,17 @@ int main(const int argc, const char *argv[]) {
     }
 }
 
-void parseIP(register const char *ipString) {
+void parseIP(const char *ipString) {
     snprintf(dBuff, sizeof(dBuff), "Parsing IP string: %s", ipString);
     verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
     
-    register uint32_t tmpIP = 0;
-    register uint32_t snm = 0;
-    register uint32_t startIP = 0;
-    register uint32_t stopIP = 0;
-    register int octet1 = 0, octet2 = 0, octet3 = 0, octet4 = 0, netbit = 0, cnt = 0, pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    uint32_t tmpIP = 0;
+    uint32_t snm = 0;
+    uint32_t startIP = 0;
+    uint32_t stopIP = 0;
+    int octet1 = 0, octet2 = 0, octet3 = 0, octet4 = 0, netbit = 0, cnt = 0, pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
-    for (register size_t i = 0; i < strlen(ipString); i++) {
+    for (size_t i = 0; i < strlen(ipString); i++) {
         if (ipString[i] == '.') {
             cnt++;
 
@@ -287,7 +287,7 @@ void parseIP(register const char *ipString) {
 
     if (vverbose) {
         printf("Hosts:\n");
-        for (uint32_t i = startIP + 1; i < stopIP; i++) {
+        for (register uint32_t i = startIP + 1; i < stopIP; i++) {
             printf("  %d.%d.%d.%d\n", (unsigned char)(i>>24), (unsigned char)(i>>16), (unsigned char)(i>>8), (unsigned char)(i));
         }
     }
