@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
-#define BYTE_TO_BINARY(byte) \
+#define BYTE_TO_BINARY(byte)   \
   ((byte) & 0x80 ? '1' : '0'), \
   ((byte) & 0x40 ? '1' : '0'), \
   ((byte) & 0x20 ? '1' : '0'), \
@@ -68,17 +68,17 @@ int main(const int argc, const char *argv[]) {
     }
 }
 
-void parseIP(const char *ipString) {
+void parseIP(register const char *ipString) {
     snprintf(dBuff, sizeof(dBuff), "Parsing IP string: %s", ipString);
     verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
     
-    uint32_t tmpIP = 0;
-    uint32_t snm = 0;
-    uint32_t startIP = 0;
-    uint32_t stopIP = 0;
-    int octet1 = 0, octet2 = 0, octet3 = 0, octet4 = 0, netbit = 0, cnt = 0, pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    register uint32_t tmpIP = 0;
+    register uint32_t snm = 0;
+    register uint32_t startIP = 0;
+    register uint32_t stopIP = 0;
+    register int octet1 = 0, octet2 = 0, octet3 = 0, octet4 = 0, netbit = 0, cnt = 0, pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
-    for (size_t i = 0; i < strlen(ipString); i++) {
+    for (register size_t i = 0; i < strlen(ipString); i++) {
         if (ipString[i] == '.') {
             cnt++;
 
