@@ -2,28 +2,15 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include <time.h>
 #include <stdint.h>
-
-#define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
-#define BYTE_TO_BINARY(byte)   \
-  ((byte) & 0x80 ? '1' : '0'), \
-  ((byte) & 0x40 ? '1' : '0'), \
-  ((byte) & 0x20 ? '1' : '0'), \
-  ((byte) & 0x10 ? '1' : '0'), \
-  ((byte) & 0x08 ? '1' : '0'), \
-  ((byte) & 0x04 ? '1' : '0'), \
-  ((byte) & 0x02 ? '1' : '0'), \
-  ((byte) & 0x01 ? '1' : '0') 
+#include "./libEpyon/misc.h" // git clone git@github.com:epyon0/libEpyon.git
 
 bool debug = false, vverbose = false;
 char dBuff[1000];
 
-void verbose(const char *msg, const char *file, const int line, const char *func, const bool enabled);
 void parseIP(const char *ipString);
 
 int main(const int argc, const char *argv[]) {
-    
     if (argc > 1) {
         for (int i = 1; i < argc; i++) {
             if ((strncmp(argv[i], "-d", sizeof("-d")) == 0) || (strncmp(argv[i], "--debug", sizeof("--debug")) == 0)) {
@@ -180,7 +167,7 @@ void parseIP(const char *ipString) {
     tmpIP += (uint32_t)octet3 << 8;
     tmpIP += (uint32_t)octet4;
 
-    snprintf(dBuff, sizeof(dBuff), "Given IP: %d.%d.%d.%d", (unsigned char)(tmpIP>>24), (unsigned char)(tmpIP>>16), (unsigned char)(tmpIP>>8), (unsigned char)(tmpIP));
+    snprintf(dBuff, sizeof(dBuff), "Given IP: %d.%d.%d.%d", (uint8_t)(tmpIP>>24), (uint8_t)(tmpIP>>16), (uint8_t)(tmpIP>>8), (uint8_t)(tmpIP));
     verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
 
     for (int i = 0; i <= netbit; i++) {
@@ -191,96 +178,160 @@ void parseIP(const char *ipString) {
         snm <<= 1;
     }
 
-    snprintf(dBuff, sizeof(dBuff), "Subnet mask: %d.%d.%d.%d", (unsigned char)(snm>>24), (unsigned char)(snm>>16), (unsigned char)(snm>>8), (unsigned char)(snm));
+    snprintf(dBuff, sizeof(dBuff), "Subnet mask: %d.%d.%d.%d", (uint8_t)(snm>>24), (uint8_t)(snm>>16), (uint8_t)(snm>>8), (uint8_t)(snm));
     verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
 
     startIP = tmpIP & snm;
 
-    snprintf(dBuff, sizeof(dBuff), "Network ID: %d.%d.%d.%d", (unsigned char)(startIP>>24), (unsigned char)(startIP>>16), (unsigned char)(startIP>>8), (unsigned char)(startIP));
+    snprintf(dBuff, sizeof(dBuff), "Network ID: %d.%d.%d.%d", (uint8_t)(startIP>>24), (uint8_t)(startIP>>16), (uint8_t)(startIP>>8), (uint8_t)(startIP));
     verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
 
     stopIP = tmpIP | ~snm;
 
-    snprintf(dBuff, sizeof(dBuff), "Broadcast: %d.%d.%d.%d", (unsigned char)(stopIP>>24), (unsigned char)(stopIP>>16), (unsigned char)(stopIP>>8), (unsigned char)(stopIP));
+    snprintf(dBuff, sizeof(dBuff), "Broadcast: %d.%d.%d.%d", (uint8_t)(stopIP>>24), (uint8_t)(stopIP>>16), (uint8_t)(stopIP>>8), (uint8_t)(stopIP));
     verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
 
     char class = '\0';
 
-    if (((unsigned char)octet1 | 0b01111111) == 0b01111111) {
+    if (((uint8_t)octet1 | 0x7F) == 0x7F) {
         class = 'A';
     }
-    if (((unsigned char)octet1 | 0b00111111) == 0b10111111) {
+    if (((uint8_t)octet1 | 0x77) == 0xBF) {
         class = 'B';
     }
-    if (((unsigned char)octet1 | 0b00011111) == 0b11011111) {
+    if (((uint8_t)octet1 | 0x1F) == 0xDF) {
         class = 'C';
     }
-    if (((unsigned char)octet1 | 0b00001111) == 0b11101111) {
+    if (((uint8_t)octet1 | 0x0F) == 0xEF) {
         class = 'D';
     }
-    if (((unsigned char)octet1 | 0b00001111) == 0b11111111) {
+    if (((uint8_t)octet1 | 0x0F) == 0xFF) {
         class = 'E';
     }
 
     if (vverbose) {
-        char tmpBuf[31] = {'\0'};
-
-        snprintf(tmpBuf, sizeof(tmpBuf), "Address:   %d.%d.%d.%d", (unsigned char)(tmpIP>>24), (unsigned char)(tmpIP>>16), (unsigned char)(tmpIP>>8), (unsigned char)(tmpIP));
-        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)(tmpIP>>24)), 
-        BYTE_TO_BINARY((unsigned char)(tmpIP>>16)), BYTE_TO_BINARY((unsigned char)(tmpIP>>8)), BYTE_TO_BINARY((unsigned char)(tmpIP)));
-
-        for (size_t i = 0; i < strlen(tmpBuf); i++) {
-            tmpBuf[i] = '\0';
-        }
-        snprintf(tmpBuf, sizeof(tmpBuf), "Netmask:   %d.%d.%d.%d", (unsigned char)(snm>>24), (unsigned char)(snm>>16), (unsigned char)(snm>>8), (unsigned char)(snm));
-        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n",tmpBuf, BYTE_TO_BINARY((unsigned char)(snm>>24)), 
-        BYTE_TO_BINARY((unsigned char)(snm>>16)), BYTE_TO_BINARY((unsigned char)(snm>>8)), BYTE_TO_BINARY((unsigned char)(snm)));
+        char tmpBuf[31] = {'\0'}, byte1[9] = {'\0'}, byte2[9] = {'\0'}, byte3[9] = {'\0'}, byte4[9] = {'\0'};
+        
+        strncpy(byte1, uint8tob((uint8_t)(tmpIP>>24)), sizeof(byte1));
+        strncpy(byte2, uint8tob((uint8_t)(tmpIP>>16)), sizeof(byte2));
+        strncpy(byte3, uint8tob((uint8_t)(tmpIP>>8)), sizeof(byte3));
+        strncpy(byte4, uint8tob((uint8_t)tmpIP), sizeof(byte4));
+        
+        snprintf(tmpBuf, sizeof(tmpBuf), "Address:   %d.%d.%d.%d", (uint8_t)(tmpIP>>24), (uint8_t)(tmpIP>>16), (uint8_t)(tmpIP>>8), (uint8_t)(tmpIP));
+        printf("%-31s%s.%s.%s.%s\n", tmpBuf, byte1, byte2, byte3, byte4);
 
         for (size_t i = 0; i < strlen(tmpBuf); i++) {
             tmpBuf[i] = '\0';
+            if ((i < strlen(byte1)) && (i < strlen(byte2)) && (i < strlen(byte3) && (i < strlen(byte4)))) {
+                byte1[i] = '\0';
+                byte2[i] = '\0';
+                byte3[i] = '\0';
+                byte4[i] = '\0';
+            }
         }
-        snprintf(tmpBuf, sizeof(tmpBuf), "Wildcard:  %d.%d.%d.%d", (unsigned char)((~snm)>>24), (unsigned char)((~snm)>>16), (unsigned char)((~snm)>>8), (unsigned char)((~snm)));
-        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)((~snm)>>24)), 
-        BYTE_TO_BINARY((unsigned char)((~snm)>>16)), BYTE_TO_BINARY((unsigned char)((~snm)>>8)), BYTE_TO_BINARY((unsigned char)((~snm))));
+        strncpy(byte1, uint8tob((uint8_t)(snm>>24)), sizeof(byte1));
+        strncpy(byte2, uint8tob((uint8_t)(snm>>16)), sizeof(byte2));
+        strncpy(byte3, uint8tob((uint8_t)(snm>>8)), sizeof(byte3));
+        strncpy(byte4, uint8tob((uint8_t)snm), sizeof(byte4));
+        
+        snprintf(tmpBuf, sizeof(tmpBuf), "Netmask:   %d.%d.%d.%d", (uint8_t)(snm>>24), (uint8_t)(snm>>16), (uint8_t)(snm>>8), (uint8_t)(snm));
+        printf("%-31s%s.%s.%s.%s\n",tmpBuf, byte1, byte2, byte3, byte4);
 
         for (size_t i = 0; i < strlen(tmpBuf); i++) {
             tmpBuf[i] = '\0';
+            if ((i < strlen(byte1)) && (i < strlen(byte2)) && (i < strlen(byte3) && (i < strlen(byte4)))) {
+                byte1[i] = '\0';
+                byte2[i] = '\0';
+                byte3[i] = '\0';
+                byte4[i] = '\0';
+            }
         }
-        snprintf(tmpBuf, sizeof(tmpBuf), "Network:   %d.%d.%d.%d/%d", (unsigned char)(startIP>>24), (unsigned char)(startIP>>16), (unsigned char)(startIP>>8), (unsigned char)(startIP), netbit);
-        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)(startIP>>24)), 
-        BYTE_TO_BINARY((unsigned char)(startIP>>16)), BYTE_TO_BINARY((unsigned char)(startIP>>8)), BYTE_TO_BINARY((unsigned char)(startIP)));
+        strncpy(byte1, uint8tob((uint8_t)((~snm)>>24)), sizeof(byte1));
+        strncpy(byte2, uint8tob((uint8_t)((~snm)>>16)), sizeof(byte2));
+        strncpy(byte3, uint8tob((uint8_t)((~snm)>>8)), sizeof(byte3));
+        strncpy(byte4, uint8tob((uint8_t)(~snm)), sizeof(byte4));
+
+        snprintf(tmpBuf, sizeof(tmpBuf), "Wildcard:  %d.%d.%d.%d", (uint8_t)((~snm)>>24), (uint8_t)((~snm)>>16), (uint8_t)((~snm)>>8), (uint8_t)((~snm)));
+        printf("%-31s%s.%s.%s.%s\n", tmpBuf, byte1, byte2, byte3, byte4);
 
         for (size_t i = 0; i < strlen(tmpBuf); i++) {
             tmpBuf[i] = '\0';
+            if ((i < strlen(byte1)) && (i < strlen(byte2)) && (i < strlen(byte3) && (i < strlen(byte4)))) {
+                byte1[i] = '\0';
+                byte2[i] = '\0';
+                byte3[i] = '\0';
+                byte4[i] = '\0';
+            }
         }
-        snprintf(tmpBuf, sizeof(tmpBuf), "Broadcast: %d.%d.%d.%d", (unsigned char)(stopIP>>24), (unsigned char)(stopIP>>16), (unsigned char)(stopIP>>8), (unsigned char)(stopIP));
-        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)(stopIP>>24)), 
-        BYTE_TO_BINARY((unsigned char)(stopIP>>16)), BYTE_TO_BINARY((unsigned char)(stopIP>>8)), BYTE_TO_BINARY((unsigned char)(stopIP)));
+        strncpy(byte1, uint8tob((uint8_t)(startIP>>24)), sizeof(byte1));
+        strncpy(byte2, uint8tob((uint8_t)(startIP>>16)), sizeof(byte2));
+        strncpy(byte3, uint8tob((uint8_t)(startIP>>8)), sizeof(byte3));
+        strncpy(byte4, uint8tob((uint8_t)startIP), sizeof(byte4));
+
+        snprintf(tmpBuf, sizeof(tmpBuf), "Network:   %d.%d.%d.%d/%d", (uint8_t)(startIP>>24), (uint8_t)(startIP>>16), (uint8_t)(startIP>>8), (uint8_t)(startIP), netbit);
+        printf("%-31s%s.%s.%s.%s\n", tmpBuf, byte1, byte2, byte3, byte4);
 
         for (size_t i = 0; i < strlen(tmpBuf); i++) {
             tmpBuf[i] = '\0';
+            if ((i < strlen(byte1)) && (i < strlen(byte2)) && (i < strlen(byte3) && (i < strlen(byte4)))) {
+                byte1[i] = '\0';
+                byte2[i] = '\0';
+                byte3[i] = '\0';
+                byte4[i] = '\0';
+            }
         }
-        snprintf(tmpBuf, sizeof(tmpBuf), "Host Min:  %d.%d.%d.%d", (unsigned char)((startIP + 1)>>24), (unsigned char)((startIP + 1)>>16), (unsigned char)((startIP + 1)>>8), (unsigned char)((startIP + 1)));
-        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)((startIP + 1)>>24)), 
-        BYTE_TO_BINARY((unsigned char)((startIP + 1)>>16)), BYTE_TO_BINARY((unsigned char)((startIP + 1)>>8)), BYTE_TO_BINARY((unsigned char)((startIP + 1))));
+        strncpy(byte1, uint8tob((uint8_t)(stopIP>>24)), sizeof(byte1));
+        strncpy(byte2, uint8tob((uint8_t)(stopIP>>16)), sizeof(byte2));
+        strncpy(byte3, uint8tob((uint8_t)(stopIP>>8)), sizeof(byte3));
+        strncpy(byte4, uint8tob((uint8_t)stopIP), sizeof(byte4));
+
+        snprintf(tmpBuf, sizeof(tmpBuf), "Broadcast: %d.%d.%d.%d", (uint8_t)(stopIP>>24), (uint8_t)(stopIP>>16), (uint8_t)(stopIP>>8), (uint8_t)(stopIP));
+        printf("%-31s%s.%s.%s.%s\n", tmpBuf, byte1, byte2, byte3, byte4);
 
         for (size_t i = 0; i < strlen(tmpBuf); i++) {
             tmpBuf[i] = '\0';
+            if ((i < strlen(byte1)) && (i < strlen(byte2)) && (i < strlen(byte3) && (i < strlen(byte4)))) {
+                byte1[i] = '\0';
+                byte2[i] = '\0';
+                byte3[i] = '\0';
+                byte4[i] = '\0';
+            }
         }
-        snprintf(tmpBuf, sizeof(tmpBuf), "Host Max:  %d.%d.%d.%d", (unsigned char)((stopIP - 1)>>24), (unsigned char)((stopIP - 1)>>16), (unsigned char)((stopIP - 1)>>8), (unsigned char)((stopIP - 1)));
-        printf("%-31s"BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"."BYTE_TO_BINARY_PATTERN"\n", tmpBuf, BYTE_TO_BINARY((unsigned char)((stopIP - 1)>>24)), 
-        BYTE_TO_BINARY((unsigned char)((stopIP - 1)>>16)), BYTE_TO_BINARY((unsigned char)((stopIP - 1)>>8)), BYTE_TO_BINARY((unsigned char)((stopIP - 1))));
+        strncpy(byte1, uint8tob((uint8_t)((startIP+1)>>24)), sizeof(byte1));
+        strncpy(byte2, uint8tob((uint8_t)((startIP+1)>>16)), sizeof(byte2));
+        strncpy(byte3, uint8tob((uint8_t)((startIP+1)>>8)), sizeof(byte3));
+        strncpy(byte4, uint8tob((uint8_t)(startIP+1)), sizeof(byte4));
+
+        snprintf(tmpBuf, sizeof(tmpBuf), "Host Min:  %d.%d.%d.%d", (uint8_t)((startIP + 1)>>24), (uint8_t)((startIP + 1)>>16), (uint8_t)((startIP + 1)>>8), (uint8_t)((startIP + 1)));
+        printf("%-31s%s.%s.%s.%s\n", tmpBuf, byte1, byte2, byte3, byte4);
+
+        for (size_t i = 0; i < strlen(tmpBuf); i++) {
+            tmpBuf[i] = '\0';
+            if ((i < strlen(byte1)) && (i < strlen(byte2)) && (i < strlen(byte3) && (i < strlen(byte4)))) {
+                byte1[i] = '\0';
+                byte2[i] = '\0';
+                byte3[i] = '\0';
+                byte4[i] = '\0';
+            }
+        }
+        strncpy(byte1, uint8tob((uint8_t)((stopIP-1)>>24)), sizeof(byte1));
+        strncpy(byte2, uint8tob((uint8_t)((stopIP-1)>>16)), sizeof(byte2));
+        strncpy(byte3, uint8tob((uint8_t)((stopIP-1)>>8)), sizeof(byte3));
+        strncpy(byte4, uint8tob((uint8_t)(stopIP-1)), sizeof(byte4));
+
+        snprintf(tmpBuf, sizeof(tmpBuf), "Host Max:  %d.%d.%d.%d", (uint8_t)((stopIP - 1)>>24), (uint8_t)((stopIP - 1)>>16), (uint8_t)((stopIP - 1)>>8), (uint8_t)((stopIP - 1)));
+        printf("%-31s%s.%s.%s.%s\n", tmpBuf, byte1, byte2, byte3, byte4);
 
         printf("Hosts/Net: %d\n", stopIP - startIP - 1);
         printf("Class:     %c\n", class);
     } else {
-        printf("Address:   %d.%d.%d.%d\n",    (unsigned char)(tmpIP>>24),         (unsigned char)(tmpIP>>16),         (unsigned char)(tmpIP>>8),         (unsigned char)(tmpIP));
-        printf("Netmask:   %d.%d.%d.%d\n",    (unsigned char)(snm>>24),           (unsigned char)(snm>>16),           (unsigned char)(snm>>8),           (unsigned char)(snm));
-        printf("Wildcard:  %d.%d.%d.%d\n",    (unsigned char)((~snm)>>24),        (unsigned char)((~snm)>>16),        (unsigned char)((~snm)>>8),        (unsigned char)((~snm)));
-        printf("Network:   %d.%d.%d.%d/%d\n", (unsigned char)(startIP>>24),       (unsigned char)(startIP>>16),       (unsigned char)(startIP>>8),       (unsigned char)(startIP), netbit);
-        printf("Broadcast: %d.%d.%d.%d\n",    (unsigned char)(stopIP>>24),        (unsigned char)(stopIP>>16),        (unsigned char)(stopIP>>8),        (unsigned char)(stopIP));
-        printf("Host Min:  %d.%d.%d.%d\n",    (unsigned char)((startIP + 1)>>24), (unsigned char)((startIP + 1)>>16), (unsigned char)((startIP + 1)>>8), (unsigned char)((startIP + 1)));
-        printf("Host Max:  %d.%d.%d.%d\n",    (unsigned char)((stopIP - 1)>>24),  (unsigned char)((stopIP - 1)>>16),  (unsigned char)((stopIP - 1)>>8),  (unsigned char)((stopIP - 1)));
+        printf("Address:   %d.%d.%d.%d\n",    (uint8_t)(tmpIP>>24),         (uint8_t)(tmpIP>>16),         (uint8_t)(tmpIP>>8),         (uint8_t)(tmpIP));
+        printf("Netmask:   %d.%d.%d.%d\n",    (uint8_t)(snm>>24),           (uint8_t)(snm>>16),           (uint8_t)(snm>>8),           (uint8_t)(snm));
+        printf("Wildcard:  %d.%d.%d.%d\n",    (uint8_t)((~snm)>>24),        (uint8_t)((~snm)>>16),        (uint8_t)((~snm)>>8),        (uint8_t)((~snm)));
+        printf("Network:   %d.%d.%d.%d/%d\n", (uint8_t)(startIP>>24),       (uint8_t)(startIP>>16),       (uint8_t)(startIP>>8),       (uint8_t)(startIP), netbit);
+        printf("Broadcast: %d.%d.%d.%d\n",    (uint8_t)(stopIP>>24),        (uint8_t)(stopIP>>16),        (uint8_t)(stopIP>>8),        (uint8_t)(stopIP));
+        printf("Host Min:  %d.%d.%d.%d\n",    (uint8_t)((startIP + 1)>>24), (uint8_t)((startIP + 1)>>16), (uint8_t)((startIP + 1)>>8), (uint8_t)((startIP + 1)));
+        printf("Host Max:  %d.%d.%d.%d\n",    (uint8_t)((stopIP - 1)>>24),  (uint8_t)((stopIP - 1)>>16),  (uint8_t)((stopIP - 1)>>8),  (uint8_t)((stopIP - 1)));
         printf("Hosts/Net: %d\n", stopIP - startIP - 1);
         printf("Class:     %c\n", class);
     }
@@ -288,20 +339,9 @@ void parseIP(const char *ipString) {
     if (vverbose) {
         printf("Hosts:\n");
         for (register uint32_t i = startIP + 1; i < stopIP; i++) {
-            printf("  %d.%d.%d.%d\n", (unsigned char)(i>>24), (unsigned char)(i>>16), (unsigned char)(i>>8), (unsigned char)(i));
+            printf("  %d.%d.%d.%d\n", (uint8_t)(i>>24), (uint8_t)(i>>16), (uint8_t)(i>>8), (uint8_t)(i));
         }
     }
 
     return ;
-}
-
-void verbose(const char *msg, const char *file, const int line, const char *func, const bool enabled) {
-    time_t now;
-    struct tm *timeinfo;
-    time(&now);
-    timeinfo = localtime(&now);
-
-    if (enabled) {
-        fprintf(stderr, "%.2d:%.2d:%.2d | %s:%d | %s | DEBUG: %s\n", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, file, line, func, msg);
-    }
 }
