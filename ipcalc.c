@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include "./libEpyon/misc.h" // git clone git@github.com:epyon0/libEpyon.git
 
-bool debug = false, vverbose = false;
+vverbose = false;
 char dBuff[1000];
 
 void parseIP(const char *ipString);
@@ -14,7 +14,7 @@ int main(const int argc, const char *argv[]) {
     if (argc > 1) {
         for (int i = 1; i < argc; i++) {
             if ((strncmp(argv[i], "-d", sizeof("-d")) == 0) || (strncmp(argv[i], "--debug", sizeof("--debug")) == 0)) {
-                debug = true;
+                setverbose(true);
             }
             if ((strncmp(argv[i], "-v", sizeof("-v")) == 0) || (strncmp(argv[i], "--verbose", sizeof("--verbose")) == 0)) {
                 vverbose = true;
@@ -57,7 +57,7 @@ int main(const int argc, const char *argv[]) {
 
 void parseIP(const char *ipString) {
     snprintf(dBuff, sizeof(dBuff), "Parsing IP string: %s", ipString);
-    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
     
     uint32_t tmpIP = 0;
     uint32_t snm = 0;
@@ -87,22 +87,22 @@ void parseIP(const char *ipString) {
     }
 
     snprintf(dBuff, sizeof(dBuff), "Octet 1 end position: %d", pos1);
-    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
 
     snprintf(dBuff, sizeof(dBuff), "Octet 2 end position: %d", pos2);
-    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
 
     snprintf(dBuff, sizeof(dBuff), "Octet 3 end position: %d", pos3);
-    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
 
     snprintf(dBuff, sizeof(dBuff), "Octet 4 end position: %d", pos4);
-    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
     
     char tmpBuf[4] = {'\0'};
     strncpy(tmpBuf, ipString, pos1);
     octet1 = atoi(tmpBuf);
     snprintf(dBuff, sizeof(dBuff), "Octet 1: %d", octet1);
-    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
 
     for (size_t i = 0; i < strlen(tmpBuf); i++) {
         tmpBuf[i] = '\0';
@@ -110,7 +110,7 @@ void parseIP(const char *ipString) {
     strncpy(tmpBuf, ipString + pos1 + 1, pos2 - pos1);
     octet2 = atoi(tmpBuf);
     snprintf(dBuff, sizeof(dBuff), "Octet 2: %d", octet2);
-    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
 
     for (size_t i = 0; i < strlen(tmpBuf); i++) {
         tmpBuf[i] = '\0';
@@ -118,7 +118,7 @@ void parseIP(const char *ipString) {
     strncpy(tmpBuf, ipString + pos2 + 1, pos3 - pos2);
     octet3 = atoi(tmpBuf);
     snprintf(dBuff, sizeof(dBuff), "Octet 3: %d", octet3);
-    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
 
     for (size_t i = 0; i < strlen(tmpBuf); i++) {
         tmpBuf[i] = '\0';
@@ -126,7 +126,7 @@ void parseIP(const char *ipString) {
     strncpy(tmpBuf, ipString + pos3 + 1, pos4 - pos3);
     octet4 = atoi(tmpBuf);    
     snprintf(dBuff, sizeof(dBuff), "Octet 4: %d", octet4);
-    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
     
     for (size_t i = 0; i < strlen(tmpBuf); i++) {
         tmpBuf[i] = '\0';
@@ -134,31 +134,31 @@ void parseIP(const char *ipString) {
     strncpy(tmpBuf, ipString + pos4 + 1, strlen(ipString) - pos4);
     netbit = atoi(tmpBuf);
     snprintf(dBuff, sizeof(dBuff), "Network Bit: %d", netbit);
-    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
 
     if ((octet1 < 0) || (octet1 > 255)) {
         snprintf(dBuff, sizeof(dBuff), "Octet 1 is out of range [%d]", octet1);
-        verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, true);
+        verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
         exit(1);
     }
     if ((octet2 < 0) || (octet2 > 255)) {
         snprintf(dBuff, sizeof(dBuff), "Octet 2 is out of range [%d]", octet2);
-        verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, true);
+        verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
         exit(1);
     }
     if ((octet3 < 0) || (octet3 > 255)) {
         snprintf(dBuff, sizeof(dBuff), "Octet 3 is out of range [%d]", octet3);
-        verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, true);
+        verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
         exit(1);
     }
     if ((octet4 < 0) || (octet4 > 255)) {
         snprintf(dBuff, sizeof(dBuff), "Octet 4 is out of range [%d]", octet4);
-        verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, true);
+        verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
         exit(1);
     }
     if ((netbit < 0) || (netbit > 32)) {
         snprintf(dBuff, sizeof(dBuff), "Network mask is out of range [%d]", netbit);
-        verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, true);
+        verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
         exit(1);
     }
 
@@ -168,7 +168,7 @@ void parseIP(const char *ipString) {
     tmpIP += (uint32_t)octet4;
 
     snprintf(dBuff, sizeof(dBuff), "Given IP: %d.%d.%d.%d", (uint8_t)(tmpIP>>24), (uint8_t)(tmpIP>>16), (uint8_t)(tmpIP>>8), (uint8_t)(tmpIP));
-    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
 
     for (int i = 0; i <= netbit; i++) {
         snm <<= 1;
@@ -179,17 +179,17 @@ void parseIP(const char *ipString) {
     }
 
     snprintf(dBuff, sizeof(dBuff), "Subnet mask: %d.%d.%d.%d", (uint8_t)(snm>>24), (uint8_t)(snm>>16), (uint8_t)(snm>>8), (uint8_t)(snm));
-    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
 
     startIP = tmpIP & snm;
 
     snprintf(dBuff, sizeof(dBuff), "Network ID: %d.%d.%d.%d", (uint8_t)(startIP>>24), (uint8_t)(startIP>>16), (uint8_t)(startIP>>8), (uint8_t)(startIP));
-    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
 
     stopIP = tmpIP | ~snm;
 
     snprintf(dBuff, sizeof(dBuff), "Broadcast: %d.%d.%d.%d", (uint8_t)(stopIP>>24), (uint8_t)(stopIP>>16), (uint8_t)(stopIP>>8), (uint8_t)(stopIP));
-    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__, debug);
+    verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
 
     char class = '\0';
 
