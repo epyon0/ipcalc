@@ -136,6 +136,9 @@ void parseIP(const char *ipString) {
     snprintf(dBuff, sizeof(dBuff), "Network Bit: %d", netbit);
     verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
 
+    bool prevVerboseValue = getverbose();
+    setverbose(true);
+
     if ((octet1 < 0) || (octet1 > 255)) {
         snprintf(dBuff, sizeof(dBuff), "Octet 1 is out of range [%d]", octet1);
         verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
@@ -161,6 +164,8 @@ void parseIP(const char *ipString) {
         verbose(dBuff, __FILE__, __LINE__, __FUNCTION__);
         exit(1);
     }
+
+    setverbose(prevVerboseValue);
 
     tmpIP += (uint32_t)octet1 << 24;
     tmpIP += (uint32_t)octet2 << 16;
